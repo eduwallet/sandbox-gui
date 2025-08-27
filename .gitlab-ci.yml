@@ -1,0 +1,17 @@
+stages:
+  - build
+  - test
+
+job_build:
+  stage: build
+  tags:
+    - martin
+  script:
+    - echo "Building the project"
+
+job_test:
+  stage: test
+  tags:
+    - martin
+  script:
+    - echo "Running tests"
