@@ -2,6 +2,9 @@
 import json
 import urllib.request
 import logging
+import ssl
+
+context = ssl._create_unverified_context()
 
 from flask import Blueprint, session
 
@@ -102,7 +105,7 @@ def api_pre_authorized_code():
     # print(json_data)
 
     req = urllib.request.Request(create_url, json_data, headers)
-    with urllib.request.urlopen(req) as f:
+    with urllib.request.urlopen(req , context=context) as f:
         res = json.loads(f.read().decode())
 
     qr_uri = res['uri']
@@ -156,7 +159,7 @@ def pac_status():
 
     req = urllib.request.Request(check_url, json_data, headers)
 
-    with urllib.request.urlopen(req) as f:
+    with urllib.request.urlopen(req , context=context) as f:
         res = json.loads(f.read().decode())
 
     # print(res)
@@ -181,7 +184,7 @@ def pac_status():
         revoke_url = config['issuer'] + "/revoke-credential"
 
         req = urllib.request.Request(revoke_url, json_data, headers)
-        with urllib.request.urlopen(req) as f:
+        with urllib.request.urlopen(req , context=context) as f:
             res = json.loads(f.read().decode())
 
         # print(res)
@@ -218,7 +221,7 @@ def verifier():
     }
 
     req = urllib.request.Request(create_url, json_data, headers)
-    with urllib.request.urlopen(req) as f:
+    with urllib.request.urlopen(req , context=context) as f:
         res = json.loads(f.read().decode())
 
     # print(res)
@@ -262,7 +265,7 @@ def verifier_status():
     }
 
     req = urllib.request.Request(check_url, None, headers)
-    with urllib.request.urlopen(req) as f:
+    with urllib.request.urlopen(req , context=context) as f:
         res = json.loads(f.read().decode())
 
     # print(res)

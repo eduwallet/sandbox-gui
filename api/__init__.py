@@ -18,5 +18,5 @@ for file in os.listdir('tests'):
         name = file[:-5]
         testset[name] = tests
 
-with open('config.json') as data:
+with open('/config.json') as data:
     config = json.load(data)
