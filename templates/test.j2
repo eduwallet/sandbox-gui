@@ -16,57 +16,78 @@
 
 <script type="text/javascript">
 function api(url) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", url, false);
-    xmlHttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-    xmlHttp.send(null);
-    if (xmlHttp.status === 200) {
-        var result = JSON.parse(xmlHttp.responseText);
-    } else {
-        var result = "ERROR";
-    }
-    return result;
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open("GET", url, false);
+  xmlHttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+  xmlHttp.send(null);
+  if (xmlHttp.status === 200) {
+    var result = JSON.parse(xmlHttp.responseText);
+  } else {
+    var result = "ERROR";
+  }
+  return result;
 }
 
 function getTest() {
-    return api("/api/get_test");
+  return api("/api/get_test");
 }
 
 function getPAC() {
-    return api("/api/pre_authorized_code");
-}
-
-function getVerifier() {
-    return api("/api/verifier");
+  return api("/api/pre_authorized_code");
 }
 
 function checkPACStatus() {
-    var status = api("/api/pac_status");
-    console.log(status)
-    status_element.innerHTML = status
-    if (status === "OFFER_URI_RETRIEVED" && pac.pin && ! alert_shown) {
-        alert(pac.pin);
-        alert_shown = true;
-    } else if (status === "CREDENTIAL_ISSUED") {
-        qr_element.innerHTML = "";
-        return;
-    } else if (status === "REVOKED") {
-        qr_element.innerHTML = "";
-        return;
-    }
-    setTimeout(checkPACStatus, 1000);
+  var status = api("/api/pac_status");
+  console.log(status)
+  status_element.innerHTML = status
+  if (status === "OFFER_URI_RETRIEVED" && pac.pin && ! alert_shown) {
+    alert(pac.pin);
+    alert_shown = true;
+  } else if (status === "CREDENTIAL_ISSUED") {
+    qr_element.innerHTML = "";
+    return;
+  } else if (status === "REVOKED") {
+    qr_element.innerHTML = "";
+    return;
+  }
+  setTimeout(checkPACStatus, 1000);
+}
+
+function getVerifier() {
+  return api("/api/verifier");
 }
 
 function checkVerifierStatus() {
-    var result = api("/api/verifier_status");
-    var status = result.status
-    console.log(status)
-    status_element.innerHTML = status
-    if (status === "RESPONSE_RECEIVED") {
-        qr_element.innerHTML = "<pre>" + JSON.stringify(result.result, null, 4) + "</pre>";
-        return;
-    }
-    setTimeout(checkVerifierStatus, 1000);
+  var result = api("/api/verifier_status");
+  var status = result.status
+  console.log(status)
+  status_element.innerHTML = status
+  if (status === "RESPONSE_RECEIVED") {
+    qr_element.innerHTML = "<pre>" + JSON.stringify(result.result, null, 4) + "</pre>";
+    return;
+  }
+  setTimeout(checkVerifierStatus, 1000);
+}
+
+function getEduID() {
+  return api("/api/eduid");
+}
+
+function checkEduIDStatus() {
+  var status = api("/api/eduid_status");
+  console.log(status)
+  status_element.innerHTML = status
+  if (status === "OFFER_URI_RETRIEVED" && eduid.pin && ! alert_shown) {
+    alert(eduid.pin);
+    alert_shown = true;
+  } else if (status === "CREDENTIAL_ISSUED") {
+    qr_element.innerHTML = "";
+    return;
+  } else if (status === "REVOKED") {
+    qr_element.innerHTML = "";
+    return;
+  }
+  setTimeout(checkEduIDStatus, 1000);
 }
 
 var qr_element = document.getElementById("qrcode");
@@ -76,30 +97,38 @@ var info_element = document.getElementById("info");
 var alert_shown = false;
 
 var qrcode = new QRCode(qr_element, {
-    width : 256,
-    height : 256,
-    correctLevel : QRCode.CorrectLevel.L
+  width : 256,
+  height : 256,
+  correctLevel : QRCode.CorrectLevel.L
 });
 
 var result = getTest();
 console.log(result);
 
-if (result.test.type === "issuance") {
-    pac = getPAC();
-    qrcode.makeCode(pac.qr_uri);
-    uri_element.innerHTML = pac.qr_uri;
-    info_element.innerHTML = "<pre>" + JSON.stringify(pac.data, null, 4) + "</pre>";
-    checkPACStatus();
+if (result.test.agent === "issuer") {
+  pac = getPAC();
+  qrcode.makeCode(pac.qr_uri);
+  uri_element.innerHTML = pac.qr_uri;
+  info_element.innerHTML = "<pre>" + JSON.stringify(pac.data, null, 4) + "</pre>";
+  checkPACStatus();
 }
 
-if (result.test.type === "verification") {
-    verifier = getVerifier();
-    qrcode.makeCode(verifier.qr_uri);
-    uri_element.innerHTML = verifier.qr_uri;
-    info_element.innerHTML = "<pre>" + verifier.code + "</pre>";
-    checkVerifierStatus();
-
+if (result.test.agent === "verifier") {
+  verifier = getVerifier();
+  qrcode.makeCode(verifier.qr_uri);
+  uri_element.innerHTML = verifier.qr_uri;
+  info_element.innerHTML = "<pre>" + verifier.code + "</pre>";
+  checkVerifierStatus();
 }
+
+if (result.test.agent === "eduid") {
+  eduid = getEduID();
+  qrcode.makeCode(eduid.qr_uri);
+  uri_element.innerHTML = eduid.qr_uri;
+  info_element.innerHTML = "<pre>" + JSON.stringify(eduid.data, null, 4) + "</pre>";
+  checkEduIDStatus();
+}
+
 
 </script>
 
