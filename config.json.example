@@ -1,6 +1,14 @@
 {
-    "issuer": "https://agent.dev.eduwallet.nl/sandbox/api",
-    "issuer_token": "xxxx",
-    "verifier": "https://verifier.dev.eduwallet.nl/sandbox/api",
-    "verifier_token": "xxxx"
+    "issuer": {
+        "url": "https://agent.dev.eduwallet.nl/sandbox/api",
+        "token": "xxx"
+    },
+    "verifier": {
+        "url": "https://verifier.dev.eduwallet.nl/sandbox/api",
+        "token": "xxx"
+    },
+    "eduid": {
+        "url": "https://issuer.dev.eduid.nl/eduid/api",
+        "token": "xxx"
+    }
 }

@@ -16,9 +16,8 @@ The API interface for issuance is generally formatted as following:
     "test_01a": {
         "name": "Academic Base Credential",
         "description": "This VC contains an Academic Base Credential for user Sharon. It will make use of a PIN",
-        "type": "issuance",
+        "type": "issuer",
         "flow": "pre_authorized_code",
-        "spec_version": "Draft 13",
         "credential": "sharon.json",
         "options": {
             "tx_code": true
@@ -31,9 +30,8 @@ The API interface for issuance is generally formatted as following:
 | identifier | A unique lowercase string for this test within the test file |
 | name | A user friendly name of the test |
 | description | A description of the test |
-| type | issuance or verification |
+| type | issuer or verifier |
 | flow | only for issuance, either pre_authorized_code or authorization_code_flow (not yet supported) |
-| spec_version | Version of the OpenID4VCI or OpenID4VP version to be used to forge the request, if left empty defaults to backend agent default |
 | credential | The credential to use, as found in the credentials directory  |
 | options | only for issuance: tx_code: true/false to request the use of a pin, revoke: true/false to immediately upon issuance revoke the credential |
 
