@@ -19,6 +19,5 @@ for file in os.listdir('tests'):
     name = file[:-5]
     testset[name] = tests
 
-print(os.environ)
 with open(os.getenv('CONF_PATH', '') + 'config.json') as data:
   config = json.load(data)
