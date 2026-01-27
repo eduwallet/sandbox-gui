@@ -69,20 +69,22 @@
 <p>{{ file }}</p>
 {% for id, test in tests.items() %}
 <div class=test onclick="return clickTest('{{file}}', '{{id}}');">
-    <h3>{{ test.name }}</h3>
-    <p><b>type:</b> {{ test.credential.type }}</p>
-    {% if test.flow %}
-    <p><b>flow:</b> {{ test.flow }}</p>
-    {% endif %}
-    {% if test.options %}
+  <h3>{{ test.name }}</h3>
+  {% if test.grants %}
+    <p><b>grants:</b> {{ test.grants }}</p>
+  {% endif %}
+  {% if test.type %}
+    <p><b>type:</b> {{ test.type }}</p>
+  {% endif %}
+  {% if test.options %}
     <p><b>options:</b></p>
     <p style='margin-left: 10px'>
     {% for option, value in test.options.items() %}
-    {{ option }} ({{ value }})<br>
+      {{ option }} ({{ value }})<br>
     {% endfor %}
     </p>
-    {% endif %}
-    <p class=description>{{ test.description }}</p>
+  {% endif %}
+  <p class=description>{{ test.description }}</p>
 </div>
 {% endfor %}
 </div>

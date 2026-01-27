@@ -2,53 +2,51 @@
     "test_01a": {
         "name": "Academic Base Credential",
         "description": "This VC contains an Academic Base Credential for user Sharon. It will make use of a PIN",
-        "type": "issuance",
-        "flow": "pre_authorized_code",
-        "spec_version": "Draft 13",
-        "credential": "sharon.json"
+        "agent": "issuer",
+        "grants": "pre-authorized_code",
+        "credential": "sharon.json",
+        "type": "AcademicBaseCredential"
     },
     "test_01b": {
         "name": "Issue & Revoke ABC VC",
         "description": "This VC contains an Academic Base Credential for user Sharon. It will make use of a PIN. The VC will be revoked immediately",
-        "type": "issuance",
-        "flow": "pre_authorized_code",
-        "spec_version": "Draft 13",
-        "credential": "sharon.json"
+        "agent": "issuer",
+        "grants": "pre-authorized_code",
+        "credential": "sharon.json",
+        "type": "AcademicBaseCredential"
     },
     "test_01c": {
         "name": "Verify ABC VC",
         "description": "Verify ABC VC",
-        "type": "verification",
-        "spec_version": "Draft 13",
-        "credential": "abc.json"
+        "agent": "verifier",
+        "type": "ABC"
     },
     "test_02a": {
         "name": "Issue Generic VC",
         "description": "Issue Generic VC",
-        "type": "issuance",
-        "flow": "pre_authorized_code",
-        "spec_version": "Draft 13",
-        "credential": "generic.json"
+        "agent": "issuer",
+        "grants": "pre-authorized_code",
+        "credential": "generic.json",
+        "type": "GenericCredential"
     },
     "test_02b": {
         "name": "Verify Generic VC",
         "description": "Verify Generic VC",
-        "type": "verification",
-        "spec_version": "Draft 13",
-        "credential": "gc.json"
+        "agent": "verifier",
+        "type": "GC"
     },
     "test_03a": {
         "name": "Issue PID",
         "description": "Issue PID credential",
-        "type": "issuance",
-        "spec_version": "Draft 13",
+        "agent": "issuer",
+        "grants": "pre-authorized_code",
+        "type": "PID",
         "credential": "pid.json"
     },
     "test_03b": {
         "name": "Verify PID",
         "description": "Verify PID credential",
-        "type": "verification",
-        "spec_version": "Draft 13",
-        "credential": "pid.json"
+        "agent": "verifier",
+        "type": "PID"
     }
 }

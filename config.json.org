@@ -1,0 +1,6 @@
+{
+    "issuer": "https://agent.dev.eduwallet.nl/sandbox/api",
+    "issuer_token": "bfOPbpdLHKLpY7GImgvnqp5mcV2jQrpF",
+    "verifier": "https://verifier.dev.eduwallet.nl/sandbox/api",
+    "verifier_token": "SE59wNFgsie3SiQ0DaGVp9JNI6Tp8SHL"
+}
