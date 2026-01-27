@@ -294,6 +294,7 @@ def eduid():
   test = testset[test_file][test_id]
 
   credential_type = test['type']
+  credential_input = test['input']
 
   data = {
       'credentials': [credential_type],
@@ -302,7 +303,7 @@ def eduid():
               'issuer_state': 'generate',
           },
       },
-      'credentialDataSupplierInput': {},
+      'credentialDataSupplierInput': credential_input,
   }
 
   tx_code_len = form.get('tx_code_len')
