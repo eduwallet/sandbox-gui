@@ -6,21 +6,5 @@
         "grants": "pre-authorized_code",
         "credential": "eduperson.json",
         "type": "GenericCredential"
-    },
-    "eduid": {
-        "name": "Issue eduID VC",
-        "description": "Test authorization code flow eduID issuance",
-        "agent": "eduid",
-        "grants": "authorization_code",
-        "type": "eduID",
-        "input": {}
-    },
-    "eduid_entitlement": {
-        "name": "Issue eduID entitlement VC",
-        "description": "Test authorization code flow eduID entitlement issuance",
-        "agent": "eduid",
-        "grants": "authorization_code",
-        "type": "entitlement",
-        "input": {"entitlements": ["urn:mace:surf.nl:invite."]}
     }
 }
