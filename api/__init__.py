@@ -4,7 +4,7 @@ import json
 
 testset = {}
 
-for file in os.listdir('tests'):
+for file in sorted(os.listdir('tests')):
   if file.endswith(".json"):
     with open('tests/' + file) as data:
       tests = json.load(data)

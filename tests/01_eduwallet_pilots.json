@@ -1,12 +1,4 @@
 {
-    "edu_person": {
-        "name": "Issue eduPerson VC",
-        "description": "This VC contains all of the claims that exist in the eduPerson specification (save for the ones defined as DEPRECATED)",
-        "agent": "issuer",
-        "grants": "pre-authorized_code",
-        "credential": "eduperson.json",
-        "type": "GenericCredential"
-    },
     "eduid": {
         "name": "Issue eduID VC",
         "description": "Test authorization code flow eduID issuance",
