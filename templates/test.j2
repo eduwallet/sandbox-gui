@@ -108,7 +108,7 @@ console.log(result);
 if (result.test.agent === "issuer") {
   pac = getPAC();
   qrcode.makeCode(pac.qr_uri);
-  uri_element.innerHTML = pac.qr_uri;
+  uri_element.innerHTML = "<a href=\"" + pac.qr_uri + "\">" + pac.qr_uri + "</a>";
   info_element.innerHTML = "<pre>" + JSON.stringify(pac.data, null, 4) + "</pre>";
   checkPACStatus();
 }
@@ -116,7 +116,7 @@ if (result.test.agent === "issuer") {
 if (result.test.agent === "verifier") {
   verifier = getVerifier();
   qrcode.makeCode(verifier.qr_uri);
-  uri_element.innerHTML = verifier.qr_uri;
+  uri_element.innerHTML = "<a href=\"" + verifier.qr_uri + "\">" + verifier.qr_uri + "</a>";
   info_element.innerHTML = "<pre>" + verifier.code + "</pre>";
   checkVerifierStatus();
 }
@@ -124,7 +124,7 @@ if (result.test.agent === "verifier") {
 if (result.test.agent === "eduid") {
   eduid = getEduID();
   qrcode.makeCode(eduid.qr_uri);
-  uri_element.innerHTML = eduid.qr_uri;
+  uri_element.innerHTML = "<a href=\"" + eduid.qr_uri + "\">" + eduid.qr_uri + "</a>";
   info_element.innerHTML = "<pre>" + JSON.stringify(eduid.data, null, 4) + "</pre>";
   checkEduIDStatus();
 }
