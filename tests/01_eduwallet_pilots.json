@@ -13,7 +13,7 @@
         "agent": "eduid",
         "grants": "authorization_code",
         "type": "eduID",
-        "input": {"_ttl": 0}
+        "input": {"_ttl": 1}
 
     },
     "eduid_entitlement": {
@@ -30,6 +30,6 @@
         "agent": "eduid",
         "grants": "authorization_code",
         "type": "entitlement",
-        "input": {"_ttl": 0, "entitlements": ["urn:mace:surf.nl:invite."]}
+        "input": {"_ttl": 1, "entitlements": ["urn:mace:surf.nl:invite."]}
     }
 }
