@@ -30,6 +30,14 @@
         "type": "GenericCredential"
     },
     "test_02b": {
+        "name": "Issue Expired Generic VC",
+        "description": "Issue Expired Generic VC",
+        "agent": "issuer",
+        "grants": "pre-authorized_code",
+        "credential": "generic_expired.json",
+        "type": "GenericCredential"
+    },
+    "test_02c": {
         "name": "Verify Generic VC",
         "description": "Verify Generic VC",
         "agent": "verifier",
