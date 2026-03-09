@@ -25,7 +25,7 @@
         "input": {"entitlements": ["urn:mace:surf.nl:invite."]}
     },
     "eduid_entitlement_exp": {
-        "name": "Issue eduID entitlement VC",
+        "name": "Issue Expired eduID entitlement VC",
         "description": "Test eduID entitlement issuance with expired VC",
         "agent": "eduid",
         "grants": "authorization_code",
