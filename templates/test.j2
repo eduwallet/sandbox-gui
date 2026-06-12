@@ -129,6 +129,14 @@ if (result.test.agent === "eduid") {
   checkEduIDStatus();
 }
 
+if (result.test.agent === "switch") {
+  eduid = getEduID();
+  qrcode.makeCode(eduid.qr_uri);
+  uri_element.innerHTML = "<a href=\"" + eduid.qr_uri + "\">" + eduid.qr_uri + "</a>";
+  info_element.innerHTML = "<pre>" + JSON.stringify(eduid.data, null, 4) + "</pre>";
+  checkEduIDStatus();
+}
+
 
 </script>
 

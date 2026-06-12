@@ -1,0 +1,10 @@
+{
+    "switch": {
+        "name": "Issue SWITCH eduID VC",
+        "description": "Test authorization code flow SWITCH eduID issuance",
+        "agent": "switch",
+        "grants": "authorization_code",
+        "type": "eduID",
+        "input": {}
+    }
+}
