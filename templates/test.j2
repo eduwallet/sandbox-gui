@@ -73,6 +73,10 @@ function getEduID() {
   return api("/api/eduid");
 }
 
+function getSWITCH() {
+  return api("/api/switch");
+}
+
 function checkEduIDStatus() {
   var status = api("/api/eduid_status");
   console.log(status)
@@ -88,6 +92,23 @@ function checkEduIDStatus() {
     return;
   }
   setTimeout(checkEduIDStatus, 1000);
+}
+
+function checkSWITCHStatus() {
+  var status = api("/api/switch_status");
+  console.log(status)
+  status_element.innerHTML = status
+  if (status === "OFFER_URI_RETRIEVED" && switchid.pin && ! alert_shown) {
+    alert(switchid.pin);
+    alert_shown = true;
+  } else if (status === "CREDENTIAL_ISSUED") {
+    qr_element.innerHTML = "";
+    return;
+  } else if (status === "REVOKED") {
+    qr_element.innerHTML = "";
+    return;
+  }
+  setTimeout(checkSWITCHStatus, 1000);
 }
 
 var qr_element = document.getElementById("qrcode");
@@ -130,11 +151,11 @@ if (result.test.agent === "eduid") {
 }
 
 if (result.test.agent === "switch") {
-  eduid = getEduID();
-  qrcode.makeCode(eduid.qr_uri);
-  uri_element.innerHTML = "<a href=\"" + eduid.qr_uri + "\">" + eduid.qr_uri + "</a>";
-  info_element.innerHTML = "<pre>" + JSON.stringify(eduid.data, null, 4) + "</pre>";
-  checkEduIDStatus();
+  switchid = getSWITCH();
+  qrcode.makeCode(switchid.qr_uri);
+  uri_element.innerHTML = "<a href=\"" + switchid.qr_uri + "\">" + switchid.qr_uri + "</a>";
+  info_element.innerHTML = "<pre>" + JSON.stringify(switchid.data, null, 4) + "</pre>";
+  checkSWITCHStatus();
 }
 
 
