@@ -1,6 +1,6 @@
 {
     "issuer": {
-        "url": "https://agent.dev.eduwallet.nl/sandbox/api",
+        "url": "https://sandbox.issuer.dev.eduwallet.nl/api",
         "token": "xxx"
     },
     "verifier": {
