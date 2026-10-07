@@ -126,6 +126,90 @@ def pre_authorized_code():
 
   return json.dumps(message)
 
+@api.route("/authorization_code")
+def authorization_code():
+  form = session.get('form')
+  if form is None:
+      logging.error("authorization_code request failed")
+      message = {
+          "status": "error"
+      }
+      return json.dumps(message)
+
+  test_file = form.get('test_file')
+  vc_type = form.get('vc_type')
+  if test_file != "free":
+    test_id = form.get('test_id')
+    test = testset[test_file][test_id]
+  else:
+    test = {
+        "agent": "issuer",
+        "credential": json.loads(form.get('free', {}))
+    }
+
+  credential_type = test['type']
+  if credential_type in [
+      'GenericCredential',
+      # 'SupportCredential',
+      # 'StudyDataCredential',
+      # 'StudentCardCredential',
+      # 'ExamEnrollmentCredential'
+  ]:
+    pass
+  credential_type += vc_type
+
+  data = {
+      'credentials': [credential_type],
+      'grants': {
+          'urn:ietf:params:oauth:grant-type:authorization_code': {},
+      }
+  }
+
+  tx_code_len = form.get('tx_code_len')
+  if int(tx_code_len) > 0:
+    tx_code_mode = form.get('tx_code_mode')
+    tx_code = {
+        'length': int(tx_code_len),
+        'input_mode': tx_code_mode
+    }
+  else:
+    tx_code = False
+
+  data['grants']['urn:ietf:params:oauth:grant-type:authorization_code']['tx_code'] = tx_code
+
+  json_data = json.dumps(data).encode("utf-8")
+
+  create_url = config['issuer']['url'] + "/create-offer"
+
+  headers = {
+      "Content-Type": "application/json",
+      "Authorization": f"Bearer {config['issuer']['token']}"
+  }
+
+  # print(f'create_url: {create_url}')
+  # print(headers)
+  # print(json_data)
+
+  req = urllib.request.Request(create_url, json_data, headers)
+  with urllib.request.urlopen(req, context=context) as f:
+    res = json.loads(f.read().decode())
+
+  qr_uri = res['uri']
+  pin = res.get('txCode')
+  ac_id = res.get('id')
+
+  message = {
+      "status": "success",
+      "test": test,
+      "qr_uri": qr_uri,
+      "pin": pin,
+      "data": data
+  }
+
+  session['revoke'] = True if form.get('revoke') else False
+  session['ac_id'] = ac_id
+
+  return json.dumps(message)
 
 @api.route("/pac_status")
 def pac_status():
@@ -190,6 +274,69 @@ def pac_status():
 
   return json.dumps(status)
 
+
+@api.route("/ac_status")
+def ac_status():
+  ac_id = session.get('ac_id')
+  if ac_id is None:
+    logging.error("ac_status request failed")
+    message = {
+        "status": "error"
+    }
+    return json.dumps(message)
+
+  revoke = session.get('revoke')
+
+  # print(revoke)
+
+  data = {
+      'id': ac_id
+  }
+
+  json_data = json.dumps(data).encode("utf-8")
+
+  check_url = config['issuer']['url'] + "/check-offer"
+
+  headers = {
+      "Content-Type": "application/json",
+      "Authorization": f"Bearer {config['issuer']['token']}"
+  }
+
+  # print(f'check_url: {check_url}')
+  # print(headers)
+  # print(json_data)
+
+  req = urllib.request.Request(check_url, json_data, headers)
+
+  with urllib.request.urlopen(req, context=context) as f:
+      res = json.loads(f.read().decode())
+
+  # print(res)
+
+  status = res['status']
+
+  if status == 'CREDENTIAL_ISSUED' and revoke:
+      uuid = res['uuid']
+      data = {
+          "uuid": uuid,
+          "state": 'revoke'
+          # list: <optional URI of a specific statuslist for which to set/unset the status>
+      }
+
+      headers = {
+          "Content-Type": "application/json",
+          "Authorization": f"Bearer {config['issuer']['token']}"
+      }
+
+      json_data = json.dumps(data).encode("utf-8")
+
+      revoke_url = config['issuer']['url'] + "/revoke-credential"
+
+      req = urllib.request.Request(revoke_url, json_data, headers)
+      with urllib.request.urlopen(req, context=context) as f:
+          res = json.loads(f.read().decode())
+
+  return json.dumps(status)
 
 @api.route("/verifier")
 def verifier():

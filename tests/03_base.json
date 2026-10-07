@@ -46,7 +46,7 @@
     "test_03a": {
         "name": "Issue PID",
         "description": "Issue PID credential",
-        "agent": "issuer",
+        "agent": "issuer_ac",
         "grants": "authorization_code",
         "type": "PID",
         "credential": "pid.json"

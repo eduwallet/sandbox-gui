@@ -36,6 +36,10 @@ function getPAC() {
   return api("/api/pre_authorized_code");
 }
 
+function getAC() {
+  return api("/api/authorization_code");
+}
+
 function checkPACStatus() {
   var status = api("/api/pac_status");
   console.log(status)
@@ -51,6 +55,23 @@ function checkPACStatus() {
     return;
   }
   setTimeout(checkPACStatus, 1000);
+}
+
+function checkACStatus() {
+  var status = api("/api/ac_status");
+  console.log(status)
+  status_element.innerHTML = status
+  if (status === "OFFER_URI_RETRIEVED" && ac.pin && ! alert_shown) {
+    alert(ac.pin);
+    alert_shown = true;
+  } else if (status === "CREDENTIAL_ISSUED") {
+    qr_element.innerHTML = "";
+    return;
+  } else if (status === "REVOKED") {
+    qr_element.innerHTML = "";
+    return;
+  }
+  setTimeout(checkACStatus, 1000);
 }
 
 function getVerifier() {
@@ -132,6 +153,14 @@ if (result.test.agent === "issuer") {
   uri_element.innerHTML = "<a href=\"" + pac.qr_uri + "\">" + pac.qr_uri + "</a>";
   info_element.innerHTML = "<pre>" + JSON.stringify(pac.data, null, 4) + "</pre>";
   checkPACStatus();
+}
+
+if (result.test.agent === "issuer_ac") {
+  ac = getAC();
+  qrcode.makeCode(ac.qr_uri);
+  uri_element.innerHTML = "<a href=\"" + ac.qr_uri + "\">" + ac.qr_uri + "</a>";
+  info_element.innerHTML = "<pre>" + JSON.stringify(ac.data, null, 4) + "</pre>";
+  checkACStatus();
 }
 
 if (result.test.agent === "verifier") {
