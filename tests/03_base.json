@@ -52,6 +52,14 @@
         "credential": "pid.json"
     },
     "test_03b": {
+        "name": "Issue PID",
+        "description": "Issue PID credential",
+        "agent": "issuer",
+        "grants": "authorization_code",
+        "type": "PID",
+        "credential": "pid.json"
+    },
+    "test_03c": {
         "name": "Verify PID",
         "description": "Verify PID credential",
         "agent": "verifier",
